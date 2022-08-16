@@ -4344,7 +4344,7 @@ var render = function () {
         "div",
         {
           staticClass:
-            "site-logo flex justify-center items-center py-4 sm:pl-10 sm:py-1",
+            "site-logo flex justify-center items-center py-4 sm:pl-10 ",
         },
         [
           _c("img", {

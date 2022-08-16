@@ -4359,7 +4359,7 @@ var render = function () {
         "div",
         {
           staticClass:
-            "landscape:pt-64 flex justify-center items-center sm:h-screen sm:w-screen z-0",
+            "flex justify-center items-center sm:h-screen sm:w-screen z-0",
         },
         [
           _c(

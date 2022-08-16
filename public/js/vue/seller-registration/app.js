@@ -2226,6 +2226,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'sellerRegistration',
@@ -4344,7 +4351,7 @@ var render = function () {
         "div",
         {
           staticClass:
-            " site-logo flex justify-center items-center sm:pl-10 sm:py-1",
+            "site-logo flex justify-center items-center sm:pl-10 sm:py-1",
         },
         [
           _c("img", {
@@ -4465,7 +4472,7 @@ var render = function () {
                             {
                               staticClass:
                                 "block font-bold mb-2 seller-form__registration",
-                              attrs: { for: "username" },
+                              attrs: { for: "last_name" },
                             },
                             [
                               _vm._v("\n                  Last name "),
@@ -4495,7 +4502,7 @@ var render = function () {
                               inputError:
                                 !_vm.sellerForm.last_name && this.errors,
                             },
-                            attrs: { id: "username", type: "text" },
+                            attrs: { id: "last_name", type: "text" },
                             domProps: { value: _vm.sellerForm.last_name },
                             on: {
                               input: function ($event) {

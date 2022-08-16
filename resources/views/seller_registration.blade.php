@@ -10,8 +10,7 @@
             margin: {
                 '5px': '5px',
             }
-        }
-      }
+        },
     }
   </script>
         <style>

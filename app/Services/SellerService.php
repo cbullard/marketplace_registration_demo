@@ -23,7 +23,7 @@ class SellerService {
 
         $validation_errors = $validatedRequest->errors();
         if ($validation_errors->any()) {
-            return response($validation_errors, 200)
+            return response($validation_errors, 400)
                 ->header('Content-Type', 'application/json');
         }
 
@@ -41,8 +41,8 @@ class SellerService {
     public function create(Request $request) {
 
         $validatedRequest = Validator::make($request->all(), [
-            'first_name' => 'required|string|min:3|max:255',
-            'last_name' => 'required|string|min:3|max:255',
+            'first_name' => 'required|string|min:1|max:255',
+            'last_name' => 'required|string|min:1|max:255',
             'portfolio' => 'required|url|unique:sellers',
             'online_stores' => 'nullable|string',
             'category' => 'integer',

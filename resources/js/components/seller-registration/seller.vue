@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <div class="page w-screen h-screen">
       <div id="site-banner"></div>
-      <div class=" site-logo flex justify-center items-center sm:pl-10 sm:py-1">
+      <div class="site-logo flex justify-center items-center sm:pl-10 sm:py-1">
         <img @click="goHome" src="assets/logo.png" alt="Creative Market" class="cursor-pointer sm:h-14 h-12">
       </div>
       <div class="flex justify-center items-center sm:h-screen sm:w-screen z-0">
@@ -24,14 +24,21 @@
                   <label class="block font-bold mb-2 form seller-form__registration" for="first_name">
                     First Name <span v-if="errors && !sellerForm.first_name" class="seller-form_required">(Required)</span>
                   </label>
-                  <input v-model.trim="sellerForm.first_name" class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight" id="first_name" type="text" :class="{inputError: !sellerForm.first_name && this.errors}">
+                  <input v-model.trim="sellerForm.first_name" class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight"
+                            id="first_name"
+                            type="text"
+                            :class="{inputError: !sellerForm.first_name && this.errors}">
                 </span>
 
                 <span class="flex-grow sm:mr-4">
-                  <label class="block font-bold mb-2 seller-form__registration" for="username">
+                  <label class="block font-bold mb-2 seller-form__registration" for="last_name">
                     Last name <span v-if="errors && !sellerForm.last_name" class="seller-form_required">(Required)</span>
                   </label>
-                  <input v-model.trim="sellerForm.last_name" class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" :class="{inputError: !sellerForm.last_name && this.errors}">
+                  <input v-model.trim="sellerForm.last_name"
+                            class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="last_name"
+                            type="text"
+                            :class="{inputError: !sellerForm.last_name && this.errors}">
                 </span>
               </div>
               <div class="flex-grow mb-6 sm:mr-4">

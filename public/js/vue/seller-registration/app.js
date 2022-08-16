@@ -4344,7 +4344,7 @@ var render = function () {
         "div",
         {
           staticClass:
-            "site-logo flex justify-center items-center py-4 sm:pl-10 ",
+            " site-logo flex justify-center items-center sm:pl-10 sm:py-1",
         },
         [
           _c("img", {
@@ -4359,14 +4359,14 @@ var render = function () {
         "div",
         {
           staticClass:
-            "flex justify-center items-center sm:h-screen sm:w-screen z-0",
+            "landscape:pt-64 flex justify-center items-center sm:h-screen sm:w-screen z-0",
         },
         [
           _c(
             "div",
             {
               staticClass:
-                "p-8 p-4 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration",
+                "p-8 p-4 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration ",
             },
             [
               _c("div", { staticClass: "w-full" }, [

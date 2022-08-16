@@ -3,11 +3,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <div class="page w-screen h-screen">
       <div id="site-banner"></div>
-      <div class="site-logo flex justify-center items-center py-4 sm:pl-10 ">
+      <div class=" site-logo flex justify-center items-center sm:pl-10 sm:py-1">
         <img @click="goHome" src="assets/logo.png" alt="Creative Market" class="cursor-pointer sm:h-14 h-12">
       </div>
-      <div class="flex justify-center items-center sm:h-screen sm:w-screen z-0">
-        <div class="p-8 p-4 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration">
+      <div class="landscape:pt-64 flex justify-center items-center sm:h-screen sm:w-screen z-0">
+        <div class="p-8 p-4 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration ">
           <div class="w-full">
             <div class="flex" v-if="step !== 3">
               <span class="seller-form__text--uppercase">Seller Application</span>

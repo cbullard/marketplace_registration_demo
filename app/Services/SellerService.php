@@ -23,7 +23,7 @@ class SellerService {
 
         $validation_errors = $validatedRequest->errors();
         if ($validation_errors->any()) {
-            return response($validation_errors, 400)
+            return response($validation_errors, 200)
                 ->header('Content-Type', 'application/json');
         }
 

@@ -212,6 +212,10 @@ export default {
   methods: {
     checkPortfolio : function() {
       if(!this.sellerForm.portfolio) return;
+      
+      // check to see if the user added http(s) to the portfolio url
+      const httpsCheck = /http:\/\//i;
+      this.sellerForm.portfolio = this.sellerForm.portfolio.replace(httpsCheck, '');
 
       try {
         axios.get('api/sellers/check-existing-portfolio/?portfolio=' + this.sellerForm.portfolio)

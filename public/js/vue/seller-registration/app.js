@@ -2278,7 +2278,10 @@ __webpack_require__.r(__webpack_exports__);
     checkPortfolio: function checkPortfolio() {
       var _this = this;
 
-      if (!this.sellerForm.portfolio) return;
+      if (!this.sellerForm.portfolio) return; // check to see if the user added http(s) to the portfolio url
+
+      var httpsCheck = /http:\/\//i;
+      this.sellerForm.portfolio = this.sellerForm.portfolio.replace(httpsCheck, '');
 
       try {
         axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/sellers/check-existing-portfolio/?portfolio=' + this.sellerForm.portfolio).then(function (response) {

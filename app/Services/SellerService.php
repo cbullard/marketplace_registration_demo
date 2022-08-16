@@ -16,9 +16,9 @@ class SellerService {
      * @return JsonResponse
      */
     public function checkExistingPortfolio($request) {
-
+        // dd($request->all());
         $validatedRequest = Validator::make($request->all(), [
-            'portfolio' => 'required|url|unique:sellers',
+            'portfolio' => 'required|unique:sellers',
         ]);
 
         $validation_errors = $validatedRequest->errors();
@@ -30,7 +30,6 @@ class SellerService {
         // If no errors and portfilio url did not exist return 200 response
         return response('', 200)
             ->header('Content-Type', 'application/json');
-
     }
     
     /**
@@ -43,7 +42,7 @@ class SellerService {
         $validatedRequest = Validator::make($request->all(), [
             'first_name' => 'required|string|min:1|max:255',
             'last_name' => 'required|string|min:1|max:255',
-            'portfolio' => 'required|url|unique:sellers',
+            'portfolio' => 'required|unique:sellers',
             'online_stores' => 'nullable|string',
             'category' => 'integer',
             'perspective' => 'integer',

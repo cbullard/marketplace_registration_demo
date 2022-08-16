@@ -4373,7 +4373,7 @@ var render = function () {
             "div",
             {
               staticClass:
-                "p-8 p-4 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration ",
+                "p-8 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration ",
             },
             [
               _c("div", { staticClass: "w-full" }, [

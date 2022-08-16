@@ -7,7 +7,7 @@
         <img @click="goHome" src="assets/logo.png" alt="Creative Market" class="cursor-pointer sm:h-14 h-12">
       </div>
       <div class="flex justify-center items-center sm:h-screen sm:w-screen z-0">
-        <div class="p-8 p-4 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration ">
+        <div class="p-8 bg-white border-0 sm:border-2 sm:border-gray-200 shadow-none sm:shadow-md rounded-lg seller-form seller-form__registration ">
           <div class="w-full">
             <div class="flex" v-if="step !== 3">
               <span class="seller-form__text--uppercase">Seller Application</span>

@@ -22,30 +22,30 @@
               <div class="flex mb-6">
                 <span class="flex-grow mr-4">
                   <label class="block font-bold mb-2 form seller-form__registration" for="first_name">
-                    First Name <span v-if="errors && !sellerForm.first_name" class="seller-form_required">(Required)</span>
+                    First Name <span v-if="errorCount && !sellerForm.first_name" class="seller-form_required">(Required)</span>
                   </label>
                   <input v-model.trim="sellerForm.first_name" class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight"
                             id="first_name"
                             type="text"
-                            :class="{inputError: !sellerForm.first_name && this.errors}">
+                            :class="{inputError: !sellerForm.first_name && this.errorCount}">
                 </span>
 
                 <span class="flex-grow sm:mr-4">
                   <label class="block font-bold mb-2 seller-form__registration" for="last_name">
-                    Last name <span v-if="errors && !sellerForm.last_name" class="seller-form_required">(Required)</span>
+                    Last name <span v-if="errorCount && (!sellerForm.last_name || errors.last_name)" class="seller-form_required">(Required)</span>
                   </label>
                   <input v-model.trim="sellerForm.last_name"
                             class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                             id="last_name"
                             type="text"
-                            :class="{inputError: !sellerForm.last_name && this.errors}">
+                            :class="{inputError: !sellerForm.last_name && this.errorCount}">
                 </span>
               </div>
               <div class="flex-grow mb-6 sm:mr-4">
                 <label class="block font-bold mb-2 seller-form__registration" for="category">
-                  Your Shop Category <span v-if="errors && !sellerForm.category" class="seller-form_required">(Required)</span>
+                  Your Shop Category <span v-if="errorCount && !sellerForm.category" class="seller-form_required">(Required)</span>
                 </label>
-                <select v-model="sellerForm.category" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.category && this.errors}">
+                <select v-model="sellerForm.category" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.category && this.errorCount}">
                   <option value="" disabled selected>Select Category</option>
                   <option v-for="opt in dropDownText.category" :key="opt.id" v-bind:value="opt.id">{{ opt.text }}</option>
                 </select>
@@ -54,22 +54,22 @@
               <div class="flex-grow mb-6 sm:mr-4">
                 <label class="block font-bold mb-2 seller-form__registration" for="portfolio">
                   Portfolio Link 
-                  <span v-if="errors && !sellerForm.portfolio" class="seller-form_required">(Required)</span> 
+                  <span v-if="errorCount && !sellerForm.portfolio" class="seller-form_required">(Required)</span> 
                   <span v-if="portfolioExists" class="seller-form_required">({{ portfolioError }})</span>
                 </label>
-                <input v-model.trim="sellerForm.portfolio" @blur="checkPortfolio" class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" id="portfolio" type="text" :class="{inputError: sellerForm.portfolio === '' && sellerForm.confirm_portfolio || this.errors && sellerForm.portfolio === ''}">
+                <input v-model.trim="sellerForm.portfolio" @blur="checkPortfolio" class="w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" id="portfolio" type="text" :class="{inputError: sellerForm.portfolio === '' && sellerForm.confirm_portfolio || this.errorCount && sellerForm.portfolio === ''}">
                 <div class="mt-2 flex items-center">
                   <input v-model.trim="sellerForm.confirm_portfolio" type="checkbox" id="confirm-content" name="confirm-content" class="seller-form__checkbox" :class="{inputError: sellerForm.portfolio && !sellerForm.confirm_portfolio}">
-                  <label for="confirm-content" class="ml-2 seller-form__info-text">Yes, I confirm that the content I submit is authored by me.</label> <span v-if="errors && !sellerForm.confirm_portfolio" class="seller-form_required">(Required)</span>
+                  <label for="confirm-content" class="ml-2 seller-form__info-text">Yes, I confirm that the content I submit is authored by me.</label> <span v-if="errorCount && !sellerForm.confirm_portfolio" class="seller-form_required">(Required)</span>
                 </div>
               </div>
 
               <div class="flex-grow mb-6">
                 <label class="block font-bold mb-2 seller-form__registration" for="stores">
-                  Do you already have an online store? <span v-if="errors && sellerForm.has_online_stores === null" class="seller-form_required">(Required)</span>
+                  Do you already have an online store? <span v-if="errorCount && sellerForm.has_online_stores === null" class="seller-form_required">(Required)</span>
                 </label>
                 <div class="mb-2 flex items-center">
-                  <input v-model.number="sellerForm.has_online_stores" value=1 type="radio" id="yes" name="existing-store" class="seller-form__radio-button" :class="{inputError: sellerForm.has_online_stores && this.errors}">
+                  <input v-model.number="sellerForm.has_online_stores" value=1 type="radio" id="yes" name="existing-store" class="seller-form__radio-button" :class="{inputError: sellerForm.has_online_stores && this.errorCount}">
                   <label for="yes" class="seller-form__info-text ml-2">Yes</label>
                 </div>
                 <div class="mb-2 flex items-center">
@@ -80,9 +80,9 @@
 
               <div v-if="sellerForm.has_online_stores" class="sm:mr-4">
                 <label class="block font-bold mb-2 seller-form__registration" for="online-stores">
-                  Online stores I sell on today <span v-if="errors && !sellerForm.online_stores" class="seller-form_required">(Required)</span>
+                  Online stores I sell on today <span v-if="errorCount && !sellerForm.online_stores" class="seller-form_required">(Required)</span>
                 </label>
-                <textarea v-model="sellerForm.online_stores" name="online_stores" id="online-stores" placeholder="Enter urls" cols="30" rows="4" class="w-full seller-form__input p-4 mr-4" :class="{inputError: !sellerForm.online_stores && this.errors}"></textarea>
+                <textarea v-model="sellerForm.online_stores" name="online_stores" id="online-stores" placeholder="Enter urls" cols="30" rows="4" class="w-full seller-form__input p-4 mr-4" :class="{inputError: !sellerForm.online_stores && this.errorCount}"></textarea>
               </div>
 
               <div class="flex justify-between mt-6">
@@ -100,9 +100,9 @@
 
               <div class="flex-grow mb-6 sm:mr-4">
                 <label class="block font-bold mb-2 seller-form__registration" for="category">
-                  When creating product to sell, which best describes your perspective on quality? <span v-if="errors && !sellerForm.perspective" class="seller-form_required">(Required)</span>
+                  When creating product to sell, which best describes your perspective on quality? <span v-if="errorCount && !sellerForm.perspective" class="seller-form_required">(Required)</span>
                 </label>
-                <select v-model="sellerForm.perspective" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.perspective && this.errors}">
+                <select v-model="sellerForm.perspective" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.perspective && this.errorCount}">
                   <option value="" disabled selected>Select Answer</option>
                   <option v-for="opt in dropDownText.perspective" :key="opt.id" v-bind:value="opt.id">{{ opt.text }}</option>
                 </select>
@@ -110,9 +110,9 @@
 
               <div class="flex-grow mb-6 sm:mr-4">
                 <label class="block font-bold mb-2 seller-form__registration" for="category">
-                  How would you describe your experience level as an online seller? <span v-if="errors && !sellerForm.experience" class="seller-form_required">(Required)</span>
+                  How would you describe your experience level as an online seller? <span v-if="errorCount && !sellerForm.experience" class="seller-form_required">(Required)</span>
                 </label>
-                <select v-model="sellerForm.experience" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.experience && this.errors}">
+                <select v-model="sellerForm.experience" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.experience && this.errorCount}">
                   <option value="" disabled selected>Select Answer</option>
                   <option v-for="opt in dropDownText.experience" :key="opt.id" v-bind:value="opt.id">{{ opt.text }}</option>
                 </select>
@@ -120,9 +120,9 @@
 
               <div class="flex-grow mb-6 sm:mr-4">
                 <label class="block font-bold mb-2 seller-form__registration" for="category">
-                  How would you describe your understanding of business and marketting? <span v-if="errors && !sellerForm.understanding" class="seller-form_required">(Required)</span>
+                  How would you describe your understanding of business and marketting? <span v-if="errorCount && !sellerForm.understanding" class="seller-form_required">(Required)</span>
                 </label>
-                <select v-model="sellerForm.understanding" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.understanding && this.errors}">
+                <select v-model="sellerForm.understanding" class="seller-form__input w-full py-2 px-3 text-base" name="category" id="category" :class="{inputError: !sellerForm.understanding && this.errorCount}">
                   <option value="" disabled selected>Select Answer</option>
                   <option v-for="opt in dropDownText.understanding" :key="opt.id" v-bind:value="opt.id">{{ opt.text }}</option>
                 </select>
@@ -184,7 +184,8 @@ export default {
             experience: '',
             understanding: ''
           },
-          errors: 0,
+          errorCount: 0,
+          errors: {},
           showOnlineStores: false,
           portfolioExists: null,
           portfolioError: null,
@@ -212,9 +213,9 @@ export default {
   methods: {
     checkPortfolio : function() {
       if(!this.sellerForm.portfolio) return;
-      
+
       // check to see if the user added http(s) to the portfolio url
-      const httpsCheck = /http:\/\//i;
+      const httpsCheck = /https?:\/\//i;
       this.sellerForm.portfolio = this.sellerForm.portfolio.replace(httpsCheck, '');
 
       try {
@@ -223,7 +224,7 @@ export default {
           if(response.status === 200) {
             if(response.data) {
               this.portfolioExists = true;
-              this.portfolioError = response.data.portfolio[0];
+              this.portfolioError = response.data.message;
               return
             }
               this.portfolioExists = false;
@@ -231,50 +232,63 @@ export default {
           }
         })
         .catch((error) => {
-          // Log errors
+          // Log errorCount
         });
       } catch (err) {
-        // Log errors
+        // Log errorCount
       }
+    },
+    handleErrors: function() {
+      console.log('you have these errors', this.errors);
     },
     submitSellerApplication : function() {
       try {
         axios.post('/api/sellers/seller', this.sellerForm)
           .then(response => {
+            // 201 Account successfully created
             if(response.status === 201) {
               this.$store.dispatch('setStep', this.step+1)
+            } else {
+              if(response.data) {
+                this.errors = this.errors = response.data;
+                this.handleErrors();
+                return
+              }
+              this.portfolioExists = false;
+              this.portfolioError = null;
             }
           })
           .catch ((err) => {
-            // log errors
+            console.log(err);
          })
       } catch (err) {
-        // log errors
+        console.log(err);
+        // log errorCount
       }
     },
     validate: function() {
-      this.errors = 0;
+      this.errorCount = 0;
       if(this.step === 1){
-        this.portfolioExists ? this.errors++ : '';
-        !this.sellerForm.first_name ? this.errors++ : '';
-        !this.sellerForm.last_name ? this.errors++ : '';
-        !this.sellerForm.category ? this.errors++ : '';
-        !this.sellerForm.portfolio ? this.errors++ : '';
-        !this.sellerForm.confirm_portfolio ? this.errors++ : '';
+        this.portfolioExists ? this.errorCount++ : '';
+        !this.sellerForm.first_name ? this.errorCount++ : '';
+        !this.sellerForm.last_name ? this.errorCount++ : '';
+        !this.sellerForm.category ? this.errorCount++ : '';
+        !this.sellerForm.portfolio ? this.errorCount++ : '';
+        !this.sellerForm.confirm_portfolio ? this.errorCount++ : '';
 
         if(this.sellerForm.has_online_stores) {
-          !this.sellerForm.online_stores ? this.errors++ : '';
+          !this.sellerForm.online_stores ? this.errorCount++ : '';
         } else if(this.sellerForm.has_online_stores=== null) {
-          this.errors++;
+          this.errorCount++;
         } else {
           this.sellerForm.online_stores = null;
         }
       }
 
       if(this.step === 2){
-         !this.sellerForm.perspective ? this.errors++ : '';
-         !this.sellerForm.experience ? this.errors++ : '';
-         !this.sellerForm.understanding ? this.errors++ : '';
+         !this.sellerForm.perspective ? this.errorCount++ : '';
+         !this.sellerForm.experience ? this.errorCount++ : '';
+         !this.sellerForm.understanding ? this.errorCount++ : '';
       }
 
     },
@@ -284,14 +298,14 @@ export default {
     nextStep: function() {
       this.validate();
       if(this.step === 1){
-        if(this.errors <= 0) {
+        if(this.errorCount <= 0) {
           this.$store.dispatch('setStep', this.step+1)
          return
         }
       }
 
       if(this.step === 2){
-        if(this.errors <= 0) {
+        if(this.errorCount <= 0) {
           this.submitSellerApplication();
          return
         }
@@ -456,4 +470,18 @@ body {
   justify-content: center;
   align-items: center;
 }
+.doShake {
+  animation: shake 2s;
+}
+	@keyframes shake {
+	  0%, 100% {
+	    transform: translateX(0);
+	  } 
+	  20%, 40%, 60%, 80% {
+	    transform: translateX(-2%);
+	  }
+	  10%, 30%, 50%, 70%, 90% {
+	    transform: translateX(2%);
+	  }
+	}
 </style>

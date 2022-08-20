@@ -2251,7 +2251,8 @@ __webpack_require__.r(__webpack_exports__);
         experience: '',
         understanding: ''
       },
-      errors: 0,
+      errorCount: 0,
+      errors: {},
       showOnlineStores: false,
       portfolioExists: null,
       portfolioError: null
@@ -2280,7 +2281,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.sellerForm.portfolio) return; // check to see if the user added http(s) to the portfolio url
 
-      var httpsCheck = /http:\/\//i;
+      var httpsCheck = /https?:\/\//i;
       this.sellerForm.portfolio = this.sellerForm.portfolio.replace(httpsCheck, '');
 
       try {
@@ -2288,55 +2289,72 @@ __webpack_require__.r(__webpack_exports__);
           if (response.status === 200) {
             if (response.data) {
               _this.portfolioExists = true;
-              _this.portfolioError = response.data.portfolio[0];
+              _this.portfolioError = response.data.message;
               return;
             }
 
             _this.portfolioExists = false;
             _this.portfolioError = null;
           }
-        })["catch"](function (error) {// Log errors
+        })["catch"](function (error) {// Log errorCount
         });
-      } catch (err) {// Log errors
+      } catch (err) {// Log errorCount
       }
+    },
+    handleErrors: function handleErrors() {
+      console.log('you have these errors', this.errors);
     },
     submitSellerApplication: function submitSellerApplication() {
       var _this2 = this;
 
       try {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/sellers/seller', this.sellerForm).then(function (response) {
+          // 201 Account successfully created
           if (response.status === 201) {
             _this2.$store.dispatch('setStep', _this2.step + 1);
+          } else {
+            if (response.data) {
+              _this2.errors = _this2.errors = response.data;
+
+              _this2.handleErrors();
+
+              return;
+            }
+
+            _this2.portfolioExists = false;
+            _this2.portfolioError = null;
           }
-        })["catch"](function (err) {// log errors
+        })["catch"](function (err) {
+          console.log(err);
         });
-      } catch (err) {// log errors
+      } catch (err) {
+        console.log(err); // log errorCount
       }
     },
     validate: function validate() {
-      this.errors = 0;
+      this.errorCount = 0;
 
       if (this.step === 1) {
-        this.portfolioExists ? this.errors++ : '';
-        !this.sellerForm.first_name ? this.errors++ : '';
-        !this.sellerForm.last_name ? this.errors++ : '';
-        !this.sellerForm.category ? this.errors++ : '';
-        !this.sellerForm.portfolio ? this.errors++ : '';
-        !this.sellerForm.confirm_portfolio ? this.errors++ : '';
+        this.portfolioExists ? this.errorCount++ : '';
+        !this.sellerForm.first_name ? this.errorCount++ : '';
+        !this.sellerForm.last_name ? this.errorCount++ : '';
+        !this.sellerForm.category ? this.errorCount++ : '';
+        !this.sellerForm.portfolio ? this.errorCount++ : '';
+        !this.sellerForm.confirm_portfolio ? this.errorCount++ : '';
 
         if (this.sellerForm.has_online_stores) {
-          !this.sellerForm.online_stores ? this.errors++ : '';
+          !this.sellerForm.online_stores ? this.errorCount++ : '';
         } else if (this.sellerForm.has_online_stores === null) {
-          this.errors++;
+          this.errorCount++;
         } else {
           this.sellerForm.online_stores = null;
         }
       }
 
       if (this.step === 2) {
-        !this.sellerForm.perspective ? this.errors++ : '';
-        !this.sellerForm.experience ? this.errors++ : '';
-        !this.sellerForm.understanding ? this.errors++ : '';
+        !this.sellerForm.perspective ? this.errorCount++ : '';
+        !this.sellerForm.experience ? this.errorCount++ : '';
+        !this.sellerForm.understanding ? this.errorCount++ : '';
       }
     },
     goHome: function goHome() {
@@ -2346,14 +2364,14 @@ __webpack_require__.r(__webpack_exports__);
       this.validate();
 
       if (this.step === 1) {
-        if (this.errors <= 0) {
+        if (this.errorCount <= 0) {
           this.$store.dispatch('setStep', this.step + 1);
           return;
         }
       }
 
       if (this.step === 2) {
-        if (this.errors <= 0) {
+        if (this.errorCount <= 0) {
           this.submitSellerApplication();
           return;
         }
@@ -2451,7 +2469,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-af49c55c] {\n  font-family: Helvetica,sans-serif;\n  font-size: 20px;\n}\n@media screen and (min-width: 980px) {\n#site-banner[data-v-af49c55c] {\n    border-bottom: 4px solid rgb(136 162 75);\n      box-shadow: 0 1px 1px rgb(0 0 0 / 11%);\n      position: relative;\n      width: 100%;\n}\n}\n.site-logo[data-v-af49c55c] {\n  float: left;\n}\n@media screen and (max-width: 980px) {\n.site-logo[data-v-af49c55c]  {\n      float: none;\n      background-color: var(--header_background);\n      box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25);\n      -webkit-backface-visibility: hidden;\n              backface-visibility: hidden;\n}\n}\n@media screen and (min-width: 768px) {\n.header[data-v-af49c55c] {\n    margin-bottom: 20px;\n    padding: 15px 0 0 56px;\n}\n}\n@media only screen and (min-width: 600px) {\n.page[data-v-af49c55c] {\n    background-image: url('/assets/bg-pattern.png');\n    background-repeat: no-repeat;\n    background-attachment: fixed;\n    background-position: bottom;\n    background-size: 100% 50%;\n}\n}\n.seller-form[data-v-af49c55c] {\n  width: 650px;\n}\n.seller-form_error[data-v-af49c55c] {\n  color: #790b0b;\n}\n.inputError[data-v-af49c55c] {\n  border: 2px solid #790b0b !important;\n}\n.seller-form__registration[data-v-af49c55c] {\n  font-size: .8rem;\n}\n.seller-form__confirmation[data-v-af49c55c]{\n    background-image: url('/assets/icon-sent.png');\n}\n.seller-form__confirmation-image[data-v-af49c55c]{\n  width: 150px;\n}\n.seller-form__confirmation-title[data-v-af49c55c]{\n  font-size: 1.6rem;\n  text-align: center;\n  font-weight: 400;\n  margin: 20px 0;\n}\n.seller-form__confirmation-body[data-v-af49c55c]{\n  font-size: 1rem;\n  text-align: center;\n  font-weight: 100;\n}\n.seller-form__text--uppercase[data-v-af49c55c] {\n  text-transform: uppercase;\n}\n.seller-form__title[data-v-af49c55c] {\n  font-size: 1.5rem;\n  font-weight: 500;\n}\n.seller-form__info-text[data-v-af49c55c] {\n  font-size: .9rem;\n}\n.seller-form__text-bold[data-v-af49c55c]{\n  font-weight: 600;\n}\n.seller-form__radio-button[data-v-af49c55c] {\n  color: #088178;\n}\n.seller-form__steps-text[data-v-af49c55c] {\n  font-size: .7rem;\n  text-align: right;\n}\n.seller-form__button[data-v-af49c55c] {\n  font-size: 18px;\n  background-color: #088178;\n  padding: 0.9rem 4rem;\n}\n.seller-form__button[data-v-af49c55c]:hover {\n  background-color: #096b65;\n  padding: 0.9rem 4rem;\n}\n.seller-form__button--back[data-v-af49c55c] {\n  font-size: 18px;\n  color: #088178;\n  background-color: #fff;\n}\n.seller-form__checkbox[data-v-af49c55c] {\n  margin-top: .2rem;\n}\n.seller-form__checkbox[data-v-af49c55c]:checked {\n  background-color: #088178;\n}\n.seller-form__input[data-v-af49c55c] {\n  background: #fbfbfd;\n  border: 1px solid #899298;\n  box-shadow: none;\n  background-color: rgb(251, 251, 253);\n  border-radius: 0.25rem;\n  line-height: 1.4;\n  color: #343a3d;\n  border-radius: 3px;\n  margin: 0;\n}\n.seller-form_required[data-v-af49c55c] {\n  font-weight: bold;\n  color: #790b0b\n}\n.centered[data-v-af49c55c] {\n  display: flex;\n  width: 100vw;\n  justify-content: center;\n  align-items: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-af49c55c] {\n  font-family: Helvetica,sans-serif;\n  font-size: 20px;\n}\n@media screen and (min-width: 980px) {\n#site-banner[data-v-af49c55c] {\n    border-bottom: 4px solid rgb(136 162 75);\n      box-shadow: 0 1px 1px rgb(0 0 0 / 11%);\n      position: relative;\n      width: 100%;\n}\n}\n.site-logo[data-v-af49c55c] {\n  float: left;\n}\n@media screen and (max-width: 980px) {\n.site-logo[data-v-af49c55c]  {\n      float: none;\n      background-color: var(--header_background);\n      box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25);\n      -webkit-backface-visibility: hidden;\n              backface-visibility: hidden;\n}\n}\n@media screen and (min-width: 768px) {\n.header[data-v-af49c55c] {\n    margin-bottom: 20px;\n    padding: 15px 0 0 56px;\n}\n}\n@media only screen and (min-width: 600px) {\n.page[data-v-af49c55c] {\n    background-image: url('/assets/bg-pattern.png');\n    background-repeat: no-repeat;\n    background-attachment: fixed;\n    background-position: bottom;\n    background-size: 100% 50%;\n}\n}\n.seller-form[data-v-af49c55c] {\n  width: 650px;\n}\n.seller-form_error[data-v-af49c55c] {\n  color: #790b0b;\n}\n.inputError[data-v-af49c55c] {\n  border: 2px solid #790b0b !important;\n}\n.seller-form__registration[data-v-af49c55c] {\n  font-size: .8rem;\n}\n.seller-form__confirmation[data-v-af49c55c]{\n    background-image: url('/assets/icon-sent.png');\n}\n.seller-form__confirmation-image[data-v-af49c55c]{\n  width: 150px;\n}\n.seller-form__confirmation-title[data-v-af49c55c]{\n  font-size: 1.6rem;\n  text-align: center;\n  font-weight: 400;\n  margin: 20px 0;\n}\n.seller-form__confirmation-body[data-v-af49c55c]{\n  font-size: 1rem;\n  text-align: center;\n  font-weight: 100;\n}\n.seller-form__text--uppercase[data-v-af49c55c] {\n  text-transform: uppercase;\n}\n.seller-form__title[data-v-af49c55c] {\n  font-size: 1.5rem;\n  font-weight: 500;\n}\n.seller-form__info-text[data-v-af49c55c] {\n  font-size: .9rem;\n}\n.seller-form__text-bold[data-v-af49c55c]{\n  font-weight: 600;\n}\n.seller-form__radio-button[data-v-af49c55c] {\n  color: #088178;\n}\n.seller-form__steps-text[data-v-af49c55c] {\n  font-size: .7rem;\n  text-align: right;\n}\n.seller-form__button[data-v-af49c55c] {\n  font-size: 18px;\n  background-color: #088178;\n  padding: 0.9rem 4rem;\n}\n.seller-form__button[data-v-af49c55c]:hover {\n  background-color: #096b65;\n  padding: 0.9rem 4rem;\n}\n.seller-form__button--back[data-v-af49c55c] {\n  font-size: 18px;\n  color: #088178;\n  background-color: #fff;\n}\n.seller-form__checkbox[data-v-af49c55c] {\n  margin-top: .2rem;\n}\n.seller-form__checkbox[data-v-af49c55c]:checked {\n  background-color: #088178;\n}\n.seller-form__input[data-v-af49c55c] {\n  background: #fbfbfd;\n  border: 1px solid #899298;\n  box-shadow: none;\n  background-color: rgb(251, 251, 253);\n  border-radius: 0.25rem;\n  line-height: 1.4;\n  color: #343a3d;\n  border-radius: 3px;\n  margin: 0;\n}\n.seller-form_required[data-v-af49c55c] {\n  font-weight: bold;\n  color: #790b0b\n}\n.centered[data-v-af49c55c] {\n  display: flex;\n  width: 100vw;\n  justify-content: center;\n  align-items: center;\n}\n.doShake[data-v-af49c55c] {\n  -webkit-animation: shake-data-v-af49c55c 2s;\n          animation: shake-data-v-af49c55c 2s;\n}\n@-webkit-keyframes shake-data-v-af49c55c {\n0%, 100% {\n\t    transform: translateX(0);\n}\n20%, 40%, 60%, 80% {\n\t    transform: translateX(-2%);\n}\n10%, 30%, 50%, 70%, 90% {\n\t    transform: translateX(2%);\n}\n}\n@keyframes shake-data-v-af49c55c {\n0%, 100% {\n\t    transform: translateX(0);\n}\n20%, 40%, 60%, 80% {\n\t    transform: translateX(-2%);\n}\n10%, 30%, 50%, 70%, 90% {\n\t    transform: translateX(2%);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4423,7 +4441,7 @@ var render = function () {
                             },
                             [
                               _vm._v("\n                  First Name "),
-                              _vm.errors && !_vm.sellerForm.first_name
+                              _vm.errorCount && !_vm.sellerForm.first_name
                                 ? _c(
                                     "span",
                                     { staticClass: "seller-form_required" },
@@ -4447,7 +4465,7 @@ var render = function () {
                               "w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight",
                             class: {
                               inputError:
-                                !_vm.sellerForm.first_name && this.errors,
+                                !_vm.sellerForm.first_name && this.errorCount,
                             },
                             attrs: { id: "first_name", type: "text" },
                             domProps: { value: _vm.sellerForm.first_name },
@@ -4479,7 +4497,9 @@ var render = function () {
                             },
                             [
                               _vm._v("\n                  Last name "),
-                              _vm.errors && !_vm.sellerForm.last_name
+                              _vm.errorCount &&
+                              (!_vm.sellerForm.last_name ||
+                                _vm.errors.last_name)
                                 ? _c(
                                     "span",
                                     { staticClass: "seller-form_required" },
@@ -4503,7 +4523,7 @@ var render = function () {
                               "w-full shadow appearance-none seller-form__input py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
                             class: {
                               inputError:
-                                !_vm.sellerForm.last_name && this.errors,
+                                !_vm.sellerForm.last_name && this.errorCount,
                             },
                             attrs: { id: "last_name", type: "text" },
                             domProps: { value: _vm.sellerForm.last_name },
@@ -4536,7 +4556,7 @@ var render = function () {
                           },
                           [
                             _vm._v("\n                Your Shop Category "),
-                            _vm.errors && !_vm.sellerForm.category
+                            _vm.errorCount && !_vm.sellerForm.category
                               ? _c(
                                   "span",
                                   { staticClass: "seller-form_required" },
@@ -4561,7 +4581,7 @@ var render = function () {
                               "seller-form__input w-full py-2 px-3 text-base",
                             class: {
                               inputError:
-                                !_vm.sellerForm.category && this.errors,
+                                !_vm.sellerForm.category && this.errorCount,
                             },
                             attrs: { name: "category", id: "category" },
                             on: {
@@ -4621,7 +4641,7 @@ var render = function () {
                             _vm._v(
                               "\n                Portfolio Link \n                "
                             ),
-                            _vm.errors && !_vm.sellerForm.portfolio
+                            _vm.errorCount && !_vm.sellerForm.portfolio
                               ? _c(
                                   "span",
                                   { staticClass: "seller-form_required" },
@@ -4659,7 +4679,8 @@ var render = function () {
                             inputError:
                               (_vm.sellerForm.portfolio === "" &&
                                 _vm.sellerForm.confirm_portfolio) ||
-                              (this.errors && _vm.sellerForm.portfolio === ""),
+                              (this.errorCount &&
+                                _vm.sellerForm.portfolio === ""),
                           },
                           attrs: { id: "portfolio", type: "text" },
                           domProps: { value: _vm.sellerForm.portfolio },
@@ -4764,7 +4785,7 @@ var render = function () {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm.errors && !_vm.sellerForm.confirm_portfolio
+                          _vm.errorCount && !_vm.sellerForm.confirm_portfolio
                             ? _c(
                                 "span",
                                 { staticClass: "seller-form_required" },
@@ -4786,7 +4807,7 @@ var render = function () {
                             _vm._v(
                               "\n                Do you already have an online store? "
                             ),
-                            _vm.errors &&
+                            _vm.errorCount &&
                             _vm.sellerForm.has_online_stores === null
                               ? _c(
                                   "span",
@@ -4811,7 +4832,8 @@ var render = function () {
                             staticClass: "seller-form__radio-button",
                             class: {
                               inputError:
-                                _vm.sellerForm.has_online_stores && this.errors,
+                                _vm.sellerForm.has_online_stores &&
+                                this.errorCount,
                             },
                             attrs: {
                               value: "1",
@@ -4905,7 +4927,7 @@ var render = function () {
                                 _vm._v(
                                   "\n                Online stores I sell on today "
                                 ),
-                                _vm.errors && !_vm.sellerForm.online_stores
+                                _vm.errorCount && !_vm.sellerForm.online_stores
                                   ? _c(
                                       "span",
                                       { staticClass: "seller-form_required" },
@@ -4927,7 +4949,8 @@ var render = function () {
                               staticClass: "w-full seller-form__input p-4 mr-4",
                               class: {
                                 inputError:
-                                  !_vm.sellerForm.online_stores && this.errors,
+                                  !_vm.sellerForm.online_stores &&
+                                  this.errorCount,
                               },
                               attrs: {
                                 name: "online_stores",
@@ -4998,7 +5021,7 @@ var render = function () {
                             _vm._v(
                               "\n                When creating product to sell, which best describes your perspective on quality? "
                             ),
-                            _vm.errors && !_vm.sellerForm.perspective
+                            _vm.errorCount && !_vm.sellerForm.perspective
                               ? _c(
                                   "span",
                                   { staticClass: "seller-form_required" },
@@ -5023,7 +5046,7 @@ var render = function () {
                               "seller-form__input w-full py-2 px-3 text-base",
                             class: {
                               inputError:
-                                !_vm.sellerForm.perspective && this.errors,
+                                !_vm.sellerForm.perspective && this.errorCount,
                             },
                             attrs: { name: "category", id: "category" },
                             on: {
@@ -5086,7 +5109,7 @@ var render = function () {
                             _vm._v(
                               "\n                How would you describe your experience level as an online seller? "
                             ),
-                            _vm.errors && !_vm.sellerForm.experience
+                            _vm.errorCount && !_vm.sellerForm.experience
                               ? _c(
                                   "span",
                                   { staticClass: "seller-form_required" },
@@ -5111,7 +5134,7 @@ var render = function () {
                               "seller-form__input w-full py-2 px-3 text-base",
                             class: {
                               inputError:
-                                !_vm.sellerForm.experience && this.errors,
+                                !_vm.sellerForm.experience && this.errorCount,
                             },
                             attrs: { name: "category", id: "category" },
                             on: {
@@ -5171,7 +5194,7 @@ var render = function () {
                             _vm._v(
                               "\n                How would you describe your understanding of business and marketting? "
                             ),
-                            _vm.errors && !_vm.sellerForm.understanding
+                            _vm.errorCount && !_vm.sellerForm.understanding
                               ? _c(
                                   "span",
                                   { staticClass: "seller-form_required" },
@@ -5196,7 +5219,8 @@ var render = function () {
                               "seller-form__input w-full py-2 px-3 text-base",
                             class: {
                               inputError:
-                                !_vm.sellerForm.understanding && this.errors,
+                                !_vm.sellerForm.understanding &&
+                                this.errorCount,
                             },
                             attrs: { name: "category", id: "category" },
                             on: {
